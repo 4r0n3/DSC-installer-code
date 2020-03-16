@@ -3,6 +3,7 @@
 Brute force script to be run in Firefox developer console. Below pre-requisites need to be installed successfully first:
 * denvera's kernel driver module to enable the Raspberry to communicate key presses into the DSC Keybus. (https://github.com/denvera/dscmod)
 * denvera's dsc-node repository to control to feed keypresses from the browser to the dscmod kernel driver. (https://github.com/denvera/dsc-node)
+
 Follow all the inscructions included in the denvera's repositories and after you get both of those modules up and running, only then come back to this repository.
 
 # Background information
@@ -42,8 +43,11 @@ Compile the dscmod kernel driver using make. Ignore the warnings.
 
 In the Node.js server config folder (dsc-node/src/)
 comment out lines 141 & 142 in the file "dscserver.js", as shown below:
+
 					//status.zones = msg.readUInt8(6);
+					
 					//status.msgText = '. . .';
+					
 Edit file dsc-node/config/default.json by changing in that file the word "socket" to "dev"
 Create the missing folder /dsc-node/log/
 Build assets with 'brunch build' in folder "dsc-node"
