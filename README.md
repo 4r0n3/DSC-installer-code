@@ -69,7 +69,11 @@ Start up the dsc-node server instance by instantiating the following command (fo
 sudo yarn start > /dev/null 2>&1
 
 Copy-paste the script from file
-*installerCodeBruteForce.txt
+
+
+* installerCodeBruteForce.txt
+
+
 into the Firefox developer console and hit Enter. In Firefox you can open the dev console by key F12.
 
 The brute force will now commence. See the Firefox developer console output for possible troubleshooting details.
