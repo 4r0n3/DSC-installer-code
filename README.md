@@ -77,3 +77,5 @@ Copy-paste the whole contents of the file
 into the Firefox developer console and hit Enter. In Firefox you can open the dev console by key F12.
 
 The brute force will now commence. See the Firefox developer console output for possible troubleshooting details.
+
+You can adjust the starting number of the brute force by changing the numbers in the array located in the very beginning of the file installerCodeBruteForce.txt
