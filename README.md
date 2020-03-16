@@ -1,6 +1,6 @@
 # DSC-installer-code
 
-Brute force script to be ran in Firefox developer console. Below pre-requisites need to be installed successfully first:
+Brute force script to be run in Firefox developer console. Below pre-requisites need to be installed successfully first:
 * denvera's kernel driver module to enable the Raspberry to communicate key presses into the DSC Keybus. (https://github.com/denvera/dscmod)
 * denvera's dsc-node repository to control to feed keypresses from the browser to the dscmod kernel driver. (https://github.com/denvera/dsc-node)
 Follow all the inscructions included in the denvera's repositories and after you get both of those modules up and running, only then come back to this repository.
