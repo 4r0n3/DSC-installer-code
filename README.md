@@ -68,7 +68,7 @@ Start up the dsc-node server instance by instantiating the following command (fo
 
 sudo yarn start > /dev/null 2>&1
 
-Copy-paste the script from file
+Copy-paste the whole contents of the file
 
 
 * installerCodeBruteForce.txt
