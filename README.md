@@ -62,11 +62,11 @@ Build assets with 'brunch build' in folder "dsc-node"
 
 Load the kernel driver into Linux with command (folder dscmod):
 
-insmod dscmod.ko
+* insmod dscmod.ko
 
 Start up the dsc-node server instance by instantiating the following command (folder dsc-node):
 
-sudo yarn start > /dev/null 2>&1
+* sudo yarn start > /dev/null 2>&1
 
 Copy-paste the whole contents of the file
 
