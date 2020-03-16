@@ -45,7 +45,7 @@ ret = raw_copy_from_user(kbuf, buff, copy_max);
 
 Compile the dscmod kernel driver using make. Ignore the warnings.
 
-In the Node.js server config folder (dsc-node/src/)
+In the Node.js folder (dsc-node/src/)
 comment out lines 141 & 142 in the file "dscserver.js", as shown below:
 
 					//status.zones = msg.readUInt8(6);
