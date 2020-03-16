@@ -31,8 +31,10 @@ Then perform these additional modifications.
 Edit line 303 in file dscmod.c as shown below (folder dscmod):
 
 FROM:
+
 ret = copy_from_user(kbuf, buff, copy_max);
 TO:
+
 ret = raw_copy_from_user(kbuf, buff, copy_max);
 
 Compile the dscmod kernel driver using make. Ignore the warnings.
