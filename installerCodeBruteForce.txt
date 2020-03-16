@@ -1,0 +1,565 @@
+// Set below the number from which you wish to begin the brute forcing.
+// With 4-digit codes the range is [0, 0, 0, 0] ... [9, 9, 9, 9]
+let bruteforceIndeksi = [0, 0, 0, 0];
+
+// INSTRUCTIONS //
+// First disarm the DSC alarm system before you begin to work on the system.
+
+// IMPORTANT:
+// Make sure you have at least one open zone in your DSC alarm system.
+// Having an open zone / open loop will make sure that no nuisance arming can happen by this script during the brute forcing.
+// For example keep open the door of control cabinet, where the DSC main circuit board is located. This is usually a zone.
+
+
+// FIRST READ THE MANUAL IN denvera's repositories: dscmod and dsc-node and do as there is told.
+// Then come here and do the additional modifications.
+
+// Edit line 303 in file dscmod.c as shown below (folder dscmod):
+// FROM:	ret = copy_from_user(kbuf, buff, copy_max);
+// TO: 		ret = raw_copy_from_user(kbuf, buff, copy_max);
+// Compile the dscmod kernel driver using make. Ignore the warnings.
+
+// In the Node.js server config folder (dsc-node/src/)
+// comment out lines 141 & 142 in the file "dscserver.js", as shown below:
+//					//status.zones = msg.readUInt8(6);
+//					//status.msgText = '. . .';
+// Edit file dsc-node/config/default.json by changing in that file the word "socket" to "dev"
+// Create the missing folder /dsc-node/log/
+// Compile the whole thing with 'brunch build' in folder "dsc-node"
+
+// Daily usage routine:
+
+// Load the kernel driver into Linux using command (folder dscmod):
+// insmod dscmod.ko
+
+// Start up the dsc-node server instance by instantiating the following command (folder dsc-node):
+// sudo yarn start > /dev/null 2>&1
+
+// Copy-paste this script into the Firefox developer console and hit Enter. In Firefox you can open the dev console by key F12
+
+
+// DO NOT EDIT FROM HERE ON
+// DO NOT EDIT FROM HERE ON
+// DO NOT EDIT FROM HERE ON
+let nappulat = document.querySelectorAll('.btn-default');
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function kasvataIndeksia() {
+	bruteforceIndeksi[3] = bruteforceIndeksi[3] + 1;
+	if (bruteforceIndeksi[3] == 10) {
+		bruteforceIndeksi[3] = 0;
+		bruteforceIndeksi[2] = bruteforceIndeksi[2] + 1;
+		if (bruteforceIndeksi[2] == 10) {
+			bruteforceIndeksi[2] = 0;
+			bruteforceIndeksi[1] = bruteforceIndeksi[1] + 1;
+			if (bruteforceIndeksi[1] == 10) {
+			bruteforceIndeksi[1] = 0;
+			bruteforceIndeksi[0] = bruteforceIndeksi[0] + 1;
+			}
+		}
+	}
+}
+
+function lahetaPainallus(napinNumero,nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9) {
+	if (napinNumero == 0) {
+		nappula0.click();
+	}
+	if (napinNumero == 1) {
+		nappula1.click();
+	}
+	if (napinNumero == 2) {
+		nappula2.click();
+	}
+	if (napinNumero == 3) {
+		nappula3.click();
+	}
+	if (napinNumero == 4) {
+		nappula4.click();
+	}
+	if (napinNumero == 5) {
+		nappula5.click();
+	}
+	if (napinNumero == 6) {
+		nappula6.click();
+	}
+	if (napinNumero == 7) {
+		nappula7.click();
+	}
+	if (napinNumero == 8) {
+		nappula8.click();
+	}
+	if (napinNumero == 9) {
+		nappula9.click();
+	}
+}
+
+async function installerCodeBruteForce() {
+	console.log("Brute force program started.");
+	// The elements returned by querySelectorAll have some randomness in the order they are assigned.
+	// Below are 3 possible scenarios. If none of these hits the target,
+	// then this script will not work and some manual configuration is required!!
+	if (nappulat[3].innerHTML == "1") {
+		console.log("Auto-selected Keypad scenario 1.");
+		//[16, 3, 4, 5, 7, 8, 9, 11, 12, 13]
+		var nappula0 = nappulat[16];
+		var nappula1 = nappulat[3];
+		var nappula2 = nappulat[4];
+		var nappula3 = nappulat[5];
+		var nappula4 = nappulat[7];
+		var nappula5 = nappulat[8];
+		var nappula6 = nappulat[9];
+		var nappula7 = nappulat[11];
+		var nappula8 = nappulat[12];
+		var nappula9 = nappulat[13];
+		var nappulastar = nappulat[15];
+		var nappulahash = nappulat[17];
+	}
+	if (nappulat[4].innerHTML == "1") {
+		console.log("Auto-selected Keypad scenario 2.");
+		//[17, 4, 5, 6, 8, 9, 10, 12, 13, 14]
+		var nappula0 = nappulat[17];
+		var nappula1 = nappulat[4];
+		var nappula2 = nappulat[5];
+		var nappula3 = nappulat[6];
+		var nappula4 = nappulat[8];
+		var nappula5 = nappulat[9];
+		var nappula6 = nappulat[10];
+		var nappula7 = nappulat[12];
+		var nappula8 = nappulat[13];
+		var nappula9 = nappulat[14];
+		var nappulastar = nappulat[16];
+		var nappulahash = nappulat[18];
+	}
+	if (nappulat[5].innerHTML == "1") {
+		console.log("Auto-selected Keypad scenario 3.");
+		//[18, 5, 6, 7, 9, 10, 11, 13, 14, 15]
+		var nappula0 = nappulat[18];
+		var nappula1 = nappulat[5];
+		var nappula2 = nappulat[6];
+		var nappula3 = nappulat[7];
+		var nappula4 = nappulat[9];
+		var nappula5 = nappulat[10];
+		var nappula6 = nappulat[11];
+		var nappula7 = nappulat[13];
+		var nappula8 = nappulat[14];
+		var nappula9 = nappulat[15];
+		var nappulastar = nappulat[17];
+		var nappulahash = nappulat[19];
+	}
+	while (true) {
+		console.clear();
+		document.title = bruteforceIndeksi[0] + " " + bruteforceIndeksi[1] + " " + bruteforceIndeksi[2] + " " + bruteforceIndeksi[3] + " attempt 1";
+		// The web page title will be updated on each installer code trial attempt. This way you can follow the progress.
+		if (bruteforceIndeksi[0] == 10 && bruteforceIndeksi[1] == 0 && bruteforceIndeksi[2] == 0 && bruteforceIndeksi[3] == 0) {
+			break; // Stop the script when 9999 installer codes have been attempted.
+		}
+		nappulahash.click();
+		await sleep(3000);
+		nappulahash.click();
+		await sleep(500);
+		nappulahash.click();
+		await sleep(1500);
+		nappulastar.click();
+		await sleep(1000);
+		nappula8.click();
+		await sleep(1000);
+		lahetaPainallus(bruteforceIndeksi[0],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1000);
+		lahetaPainallus(bruteforceIndeksi[1],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1000);
+		lahetaPainallus(bruteforceIndeksi[2],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[3],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		console.log(statusTexti);
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		document.title = bruteforceIndeksi[0] + " " + bruteforceIndeksi[1] + " " + bruteforceIndeksi[2] + " " + bruteforceIndeksi[3] + " attempt 2";
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);	
+		// Now we have potentially found the installer code. Let us redo the check to confirm. The first re-try begins (2nd total attempt).
+		// This script does generate some false-positive here and there. To eliminate the effect of these, we redo the code attempt 3 times total.
+		nappulahash.click();
+		await sleep(4000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(2000);		
+		nappulastar.click();
+		await sleep(1000);
+		nappula8.click();
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[0],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[1],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[2],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[3],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		console.log(statusTexti);
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		document.title = bruteforceIndeksi[0] + " " + bruteforceIndeksi[1] + " " + bruteforceIndeksi[2] + " " + bruteforceIndeksi[3] + " attempt 3";
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		// Second re-try begins (3rd total attempt).
+		// If this 3rd attempt also succeeds, then we will open up a new browser tab to indicate that a valid key has been found.
+		// However, the script will continue to run and attempt to find yet another valid installer's code even after one valid code has been found.
+		nappulahash.click();
+		await sleep(4000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(2000);		
+		nappulastar.click();
+		await sleep(1000);
+		nappula8.click();
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[0],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[1],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[2],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		await sleep(1500);
+		lahetaPainallus(bruteforceIndeksi[3],nappula0,nappula1,nappula2,nappula3,nappula4,nappula5,nappula6,nappula7,nappula8,nappula9);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		await sleep(1000);
+		statusTexti = document.getElementsByClassName("text-center")[0].innerHTML;
+		console.log(statusTexti);
+		if (statusTexti.includes("Incorrect")) {
+			console.log("Incorrect code.");
+			kasvataIndeksia();
+			continue;
+		}
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		nappulahash.click();
+		await sleep(1000);
+		window.open(bruteforceIndeksi[0] + " " + bruteforceIndeksi[1] + " " + bruteforceIndeksi[2] + " " + bruteforceIndeksi[3], '_blank');
+		// Above we are opening the browser tab to indicate that a valid installer's code has been found.
+		// Note that the script will continue to run and still keep on searching for yet another valid code.
+		await sleep(1000);
+		kasvataIndeksia();
+		continue;
+	}
+}
+
+installerCodeBruteForce();
